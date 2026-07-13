@@ -1,5 +1,5 @@
-variable "enabled" {
-  description = "Whether to enable the resources."
+variable "enable_dedicated_account" {
+  description = "Deploy to dedicated AWS account"
   type        = bool
   default     = true
 }
