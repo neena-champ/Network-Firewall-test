@@ -1,0 +1,49 @@
+name: first-workflow
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  region: us-east-2
+  bucket_name: network-firewall-test-backend-s3
+  key: terraform.tfstate
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    permissions:
+        id-token: write
+        contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+         terraform_version: 1.5.7
+
+      - name: Configure AWS credentials using OIDC for Ephemeral Experimentation Account
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::260821837747:role/aws-github-oidc-13775133
+          aws-region: ${{ env.region }}
+      
+      - name: init
+        run: terraform init -backend-config key=${{ env.key }} -backend-config bucket=${{ env.bucket_name }} -backend-config region=${{ env.region }}
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Plan
+        run: terraform plan
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
+
+      #- name: Terraform Destroy
+      #  run: terraform destroy -auto-approve
