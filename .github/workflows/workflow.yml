@@ -27,10 +27,10 @@ jobs:
         with:
          terraform_version: 1.5.7
 
-      - name: Configure AWS credentials using OIDC for Ephemeral Experimentation Account
+      - name: Configure AWS credentials using OIDC for Experimentation Account
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::260821837747:role/aws-github-oidc-13775133
+          role-to-assume: arn:aws:iam::217079621926:role/aws-github-oidc-experimentation
           aws-region: ${{ env.region }}
       
       - name: init
