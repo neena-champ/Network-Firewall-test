@@ -1,3 +1,7 @@
+terraform {
+  backend "s3" {}
+}
+
 module "network_firewall_spoke" {
   source                        = "https://github.com/champ-oss/terraform-aws-network-spoke.git?ref=v1.0.6-343ad82"
   name                          = "network-firewall-vpc"
